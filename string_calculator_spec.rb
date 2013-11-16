@@ -30,11 +30,17 @@ describe StringCalculator do
     end
 
     it 'handles custom delimiters' do
-      expect(StringCalculator.add("//;\n2;3r+M;:")).to eq(5)
+      expect(StringCalculator.add("//*\n2*38*10")).to eq(50)
     end
 
-    it 'handles a negative number by throwing an exception' do
-      expect(StringCalculator.add("-1,3")).to eq('negatives not allowed')
+    context 'when given negative numbers' do
+      it 'throws an exception' do
+        expect { StringCalculator.add("-1,3") }.to raise_error(/negatives not allowed/)
+      end
+
+      it 'provides a helpful list of negative numbers that were provided' do
+        expect { StringCalculator.add("3,7,-9,10,12,-3") }.to raise_error(/negatives passed: -9, -3/)
+      end
     end
 
   end
